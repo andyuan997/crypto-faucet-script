@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.0.1
 // @description  auto faucets
-// @author       vikiweb
+// @author       Andy PRO
 // @match        https://firefaucet.win/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue
@@ -31,25 +31,27 @@ function try_roll() {
 
     // 如果在特定頁面（如「Daily」或「Faucet」），則設置間隔時間並執行一些操作
     if (window.location.href.includes(check_address + '/daily') || window.location.href.includes(check_address + '/faucet/')) {
-        setTimeout(function() {
-            if (document.querySelector("#select-hcaptcha")) {
-                document.querySelector("#select-hcaptcha").click();
-            } else if (document.querySelector("#select-recaptcha")) {
-                document.querySelector("#select-recaptcha").click();
-            }
-            setTimeout(function () {
+        if (document.querySelector("#select-hcaptcha")) {
+            document.querySelector("#select-hcaptcha").click();
+        } else if (document.querySelector("#select-recaptcha")) {
+            document.querySelector("#select-recaptcha").click();
+        } else if (document.querySelector("#select-turnstile")) {
+            document.querySelector("#select-turnstile").click();
+        }
+
+        if (window.location.href.includes(check_address +'/daily') || window.location.href.includes(check_address +'/faucet/')) {
+            setInterval(function() {
                 if (document.querySelector("button[type='submit']")) {
                     document.querySelector("button[type='submit']").click();
                 }
-                // 如果存在某些按鈕，且文字為 "Continue" 或 "Go Home"，則點擊
-                if (document.querySelector(".btn.earn-btns") && (document.querySelector(".btn.earn-btns").innerText.includes("Continue") || document.querySelector(".btn.earn-btns").innerText.includes("Go Home"))) {
+                if(document.querySelector(".btn.earn-btns") && document.querySelector(".btn.earn-btns").innerText.includes("Continue") || document.querySelector(".btn.earn-btns").innerText.includes("Go Home")){
                     document.querySelector(".btn.earn-btns").click();
                     remain = 606;
                     counter = 0;
                 }
-            }, 3000);
-        }, 30000); // 設置 30 秒的時間間隔來執行上述操作
+            }, 15000);
     }
+}
 }
 
 function count_up() {
@@ -68,6 +70,10 @@ function auto_roll() {
   timer = setInterval(count_up, 101000); /* 1 minute */
 }
 
+setTimeout(function () {
+  location.reload();
+  console.log("reload...");
+}, 600000);
 
 setTimeout(function () {
   auto_roll();
