@@ -48,5 +48,10 @@ function auto_roll() {
 }
 
 setTimeout(function () {
+  location.reload();
+  console.log("reload...");
+}, 600000);
+
+setTimeout(function () {
   auto_roll();
 }, 3000);
