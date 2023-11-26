@@ -1,0 +1,52 @@
+// ==UserScript==
+// @name freebitcoin.io auto roll
+// @description Auto roll
+// @author Andy PRO
+// @match https://freebitcoin.io/free*
+// @run-at document-end
+// @grant GM_addStyle
+// @grant GM_getResourceURL
+// @grant GM_xmlhttpRequest
+// @grant unsafeWindow
+// @version 0.0.1
+// @icon
+// ==/UserScript==
+
+var timer = undefined;
+var counter = 0;
+var remain = 60 * 6;
+
+function try_roll() {
+  var rollButton = document.querySelector('.main-button-2.roll-button.bg-2');
+
+  console.log("Detect if we can roll");
+  document.title = "Can we roll?";
+
+
+  if (rollButton && rollButton.style["display"] != "none") {
+    console.log("Rolling...");
+    document.title = "Rooling...";
+    rollButton.click();
+    remain = 606;
+    counter = 0;
+  }
+}
+
+function count_up() {
+  counter = counter + 1;
+  if (counter >= remain) {
+    location.reload();
+  }
+  try_roll();
+}
+
+function auto_roll() {
+  if (document.location.href.indexOf("freebitcoin.io") == -1)
+    return;
+  try_roll();
+  timer = setInterval(count_up, 101000); /* 1 minute */
+}
+
+setTimeout(function () {
+  auto_roll();
+}, 3000);
