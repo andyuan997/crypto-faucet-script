@@ -5,5 +5,6 @@ This project hosts some scripts about cryptocurrency taps that can be run on tem
 Currently supported faucet sites.
 - [x] https://freebitco.in/
 - [x] https://firefaucet.win/
+- [x] https://freebitcoin.io/free
 
 🚀In the future, it will be fully integrated into the robot.
