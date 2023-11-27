@@ -6,5 +6,6 @@ Currently supported faucet sites.
 - [x] https://freebitco.in/
 - [x] https://firefaucet.win/
 - [x] https://freebitcoin.io/free
+- [x] https://faucetcrypto.com/
 
 🚀In the future, it will be fully integrated into the robot.
