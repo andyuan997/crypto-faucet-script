@@ -10,7 +10,9 @@
 // @grant unsafeWindow
 // @version 0.0.1
 // @icon
+// @grant unsafeWindow
 // ==/UserScript==
+
 
 var timer = undefined;
 var counter = 0;
@@ -27,6 +29,8 @@ function try_roll() {
     console.log("Rolling...");
     document.title = "Rooling...";
     rollButton.click();
+
+
     remain = 606;
     counter = 0;
   }
@@ -47,11 +51,23 @@ function auto_roll() {
   timer = setInterval(count_up, 101000); /* 1 minute */
 }
 
+var _alert=window.alert
+
+window.alert = function() {
+  return true;
+}
+
 setTimeout(function () {
   location.reload();
   console.log("reload...");
-}, 600000);
+}, 60000);
 
 setTimeout(function () {
+
+//破解彈出
+unsafeWindow.alert = function(){return false};
+window.alert = function(){return false};
+Window.prototype.alert = function(){return false};
+
   auto_roll();
 }, 3000);
