@@ -1,0 +1,71 @@
+// ==UserScript==
+// @name faucetcrypto auto roll
+// @namespace
+// @description Auto roll
+// @author Andy PRO
+// @match https://faucetcrypto.com/*
+// @run-at document-end
+// @grant GM_addStyle
+// @grant GM_getResourceURL
+// @grant GM_xmlhttpRequest
+// @grant unsafeWindow
+// @version 0.0.1
+// @icon
+// ==/UserScript==
+
+var timer = undefined;
+var counter = 0;
+var remain = 60 * 6;
+
+function try_roll() {
+  // 查找包含指定类的 <span> 元素
+    const spanElement = document.querySelector('span.inline-flex.rounded-md.shadow-sm');
+
+    if (spanElement) {
+        // 在 <span> 元素内查找 <a> 元素
+        const claimRewardButton = document.querySelector('a[href="https://faucetcrypto.com/faucet-claim/view"][to="https://faucetcrypto.com/faucet-claim/view"]');
+
+        if (claimRewardButton) {
+            claimRewardButton.click(); // 触发点击事件
+            console.log('Clicked on Claim Reward button');
+        } else {
+            console.log('Unable to find the Claim Reward button inside the span element');
+        }
+    } else {
+        console.log('Unable to find the span element containing the Claim Reward button');
+    }
+
+    // 等待 15 秒
+    setTimeout(function() {
+        // 查找带有特定文字内容的按钮元素
+        const getRewardButton = Array.from(document.getElementsByTagName('button')).find(button => button.textContent.includes('Get Reward'));
+
+        if (getRewardButton) {
+            getRewardButton.click(); // 触发点击事件
+            console.log('Clicked on Get Reward button');
+        } else {
+            console.log('Unable to find the Get Reward button element');
+        }
+    }, 20000); // 15 秒后执行点击事件
+
+
+}
+
+function count_up() {
+  counter = counter + 1;
+  if (counter >= remain) {
+    location.reload();
+  }
+  try_roll();
+}
+
+function auto_roll() {
+  if (document.location.href.indexOf("faucetcrypto.com") == -1)
+    return;
+  try_roll();
+  timer = setInterval(count_up, 101000); /* 1 minute */
+}
+
+setTimeout(function () {
+  auto_roll();
+}, 3000);
